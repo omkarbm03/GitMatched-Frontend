@@ -27,14 +27,14 @@ const Body = () => {
   };
 
   useEffect(() => {
-    fetchUser(), [];
-  });
+    fetchUser();
+  }, []);
 
   return (
     <div>
       <Navbar />
       <Outlet />
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };
