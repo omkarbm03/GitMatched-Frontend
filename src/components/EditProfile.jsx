@@ -6,111 +6,127 @@ import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
 
 const EditProfile = ({ user }) => {
-  const [firstName, setfirstName] = useState(user.firstName);
-  const [lastName, setlastName] = useState(user.lastName);
-  const [skills, setskills] = useState(user.skills);
-  const [about, setabout] = useState(user.about);
-  const [photoUrl, setphotoUrl] = useState(user.photoUrl);
-  const [showToast, setshowToast] = useState(false);
+  const [firstName, setFirstName] = useState(user?.firstName || "");
+  const [lastName, setLastName] = useState(user?.lastName || "");
+  const [skills, setSkills] = useState(user?.skills?.join(", ") || "");
+  const [about, setAbout] = useState(user?.about || "");
+  const [photoUrl, setPhotoUrl] = useState(user?.photoUrl || "");
+  const [showToast, setShowToast] = useState(false);
   const [error, setError] = useState("");
   const dispatch = useDispatch();
 
   const saveProfile = async () => {
     setError("");
     try {
-      const res = await axios.patch(
-        BASE_URL + "/profile/edit",
-        { firstName, lastName, skills, about, photoUrl },
-        { withCredentials: true }
-      );
+      const payload = {
+        firstName,
+        lastName,
+        skills: skills.split(",").map((s) => s.trim()), // ✅ fix array handling
+        about,
+        photoUrl,
+      };
+
+      const res = await axios.patch(BASE_URL + "/profile/edit", payload, {
+        withCredentials: true,
+      });
+
       dispatch(addUser(res?.data?.data));
-      setshowToast(true);
-      setTimeout(() => {
-        setshowToast(false);
-      }, 3000);
+      setShowToast(true);
+      setTimeout(() => setShowToast(false), 3000);
     } catch (err) {
-      setError(err.response.data);
+      setError(err?.response?.data || "Something went wrong");
     }
   };
 
   return (
     <>
-      <div className="flex justify-center my-10 ">
-        <div className="flex justify-center mx-10">
-          <div className="card card-border bg-base-300 w-96">
-            <div className="card-body">
-              <h2 className="card-title justify-center">Edit Profile</h2>
-              <div className="firstName">
-                <fieldset className="fieldset">
-                  <legend className="fieldset-legend">First Name</legend>
-                  <input
-                    type="text"
-                    value={firstName}
-                    className="input"
-                    onChange={(e) => setfirstName(e.target.value)}
-                  />
-                  <p className="label"></p>
-                </fieldset>
-              </div>
-              <div className="lastName">
-                <fieldset className="fieldset">
-                  <legend className="fieldset-legend">Last Name</legend>
-                  <input
-                    type="text"
-                    value={lastName}
-                    className="input"
-                    onChange={(e) => setlastName(e.target.value)}
-                  />
-                  <p className="label"></p>
-                </fieldset>
-              </div>
-              <div className="firstName">
-                <fieldset className="fieldset">
-                  <legend className="fieldset-legend">Skills</legend>
-                  <input
-                    type="text"
-                    value={skills}
-                    className="input"
-                    onChange={(e) => setskills(e.target.value)}
-                  />
-                  <p className="label"></p>
-                </fieldset>
-              </div>
-              <div className="firstName">
-                <fieldset className="fieldset">
-                  <legend className="fieldset-legend">About</legend>
-                  <input
-                    type="text"
-                    value={about}
-                    className="input"
-                    onChange={(e) => setabout(e.target.value)}
-                  />
-                  <p className="label"></p>
-                </fieldset>
-              </div>
-              <div className="firstName">
-                <fieldset className="fieldset">
-                  <legend className="fieldset-legend">Photo URL</legend>
-                  <input
-                    type="text"
-                    value={photoUrl}
-                    className="input"
-                    onChange={(e) => setphotoUrl(e.target.value)}
-                  />
-                  <p className="label"></p>
-                </fieldset>
-              </div>
-              <p className="text-red-500">{error}</p>
-              <div className="card-actions justify-center">
-                <button className="btn btn-primary" onClick={saveProfile}>
-                  Save Changes
-                </button>
-              </div>
+      <div className="flex flex-col lg:flex-row justify-center my-10 gap-8">
+        {/* Edit form */}
+        <div className="card card-border bg-base-300 w-96">
+          <div className="card-body">
+            <h2 className="card-title justify-center">Edit Profile</h2>
+
+            {/* First Name */}
+            <fieldset className="fieldset">
+              <legend className="fieldset-legend">First Name</legend>
+              <input
+                type="text"
+                value={firstName}
+                className="input"
+                onChange={(e) => setFirstName(e.target.value)}
+              />
+            </fieldset>
+
+            {/* Last Name */}
+            <fieldset className="fieldset">
+              <legend className="fieldset-legend">Last Name</legend>
+              <input
+                type="text"
+                value={lastName}
+                className="input"
+                onChange={(e) => setLastName(e.target.value)}
+              />
+            </fieldset>
+
+            {/* Skills */}
+            <fieldset className="fieldset">
+              <legend className="fieldset-legend">Skills</legend>
+              <input
+                type="text"
+                value={skills}
+                className="input"
+                placeholder="Comma separated e.g. React, Node.js"
+                onChange={(e) => setSkills(e.target.value)}
+              />
+            </fieldset>
+
+            {/* About */}
+            <fieldset className="fieldset">
+              <legend className="fieldset-legend">About</legend>
+              <textarea
+                value={about}
+                className="textarea textarea-bordered w-full"
+                rows={3}
+                onChange={(e) => setAbout(e.target.value)}
+              />
+            </fieldset>
+
+            {/* Photo URL */}
+            <fieldset className="fieldset">
+              <legend className="fieldset-legend">Photo URL</legend>
+              <input
+                type="text"
+                value={photoUrl}
+                className="input"
+                onChange={(e) => setPhotoUrl(e.target.value)}
+              />
+            </fieldset>
+
+            {/* Error */}
+            <p className="text-red-500 text-sm mt-2">{error}</p>
+
+            {/* Save button */}
+            <div className="card-actions justify-center mt-4">
+              <button className="btn btn-primary" onClick={saveProfile}>
+                Save Changes
+              </button>
             </div>
           </div>
         </div>
-        <UserCard user={{ firstName, lastName, skills, about, photoUrl }} />
+
+        {/* Live Preview */}
+        <UserCard
+          user={{
+            firstName,
+            lastName,
+            skills: skills.split(",").map((s) => s.trim()),
+            about,
+            photoUrl,
+          }}
+        />
       </div>
+
+      {/* Toast */}
       {showToast && (
         <div className="toast toast-top toast-center">
           <div className="alert alert-success">
