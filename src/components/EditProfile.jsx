@@ -42,9 +42,11 @@ const EditProfile = ({ user }) => {
     <>
       <div className="flex flex-col lg:flex-row justify-center items-stretch my-10 gap-10 px-4">
         {/* Edit form */}
-        <div className="card bg-base-300 w-full max-w-md shadow-xl rounded-xl flex flex-col flex-1">
-          <div className="card-body space-y-4 flex-1">
-            <h2 className="text-2xl font-bold text-center mb-2">Edit Profile</h2>
+        <div className="card bg-base-300 w-96 shadow-xl rounded-xl flex flex-col flex-1">
+          <div className="card-body space-y-4 w-96">
+            <h2 className="text-2xl font-bold text-center mb-2">
+              Edit Profile
+            </h2>
 
             {/* First Name */}
             <div className="form-control">
@@ -115,7 +117,7 @@ const EditProfile = ({ user }) => {
         </div>
 
         {/* Live Preview */}
-        <div className="w-full max-w-md flex flex-col flex-1">
+        <div className="w-96 flex flex-col flex-1">
           <div className="card bg-base-300 shadow-xl rounded-xl flex-1">
             <UserCard
               user={{
