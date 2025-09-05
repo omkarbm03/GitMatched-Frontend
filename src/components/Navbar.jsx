@@ -27,16 +27,16 @@ const Navbar = () => {
           <Link
             to="/connections"
             className="btn btn-ghost btn-circle tooltip tooltip-bottom"
-            data-tip="Connections"
+            data-tip="Chat"
           >
-            <span className="text-xl">👥</span>
+            <span className="text-xl">📩</span>
           </Link>
           <Link
             to="/requests"
             className="btn btn-ghost btn-circle tooltip tooltip-bottom"
             data-tip="Requests"
           >
-            <span className="text-xl">📩</span>
+            <span className="text-xl">👥</span>
           </Link>
         </div>
       )}
