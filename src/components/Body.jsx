@@ -15,25 +15,34 @@ const Body = () => {
   const fetchUser = async () => {
     if (userData) return;
     try {
-      const res = await axios.get(BASE_URL + "/profile/view", {
+      const res = await axios.get(`${BASE_URL}/profile/view`, {
         withCredentials: true,
       });
       dispatch(addUser(res.data));
     } catch (err) {
-      if (err.status === 400) {
-        navigate("/login");
+      if (err.response?.status === 400 || err.response?.status === 401) {
+        navigate("/login", { replace: true });
       }
     }
   };
 
   useEffect(() => {
     fetchUser();
-  }, []);
+  }, [userData]);
 
   return (
-    <div>
+    <div className="flex flex-col min-h-screen">
+      {/* Sticky Navbar at top */}
       <Navbar />
-      <Outlet />
+
+      {/* Main content area - centered, responsive */}
+      <main className="flex-1 flex items-center justify-center px-4 py-6">
+        <div className="w-full max-w-md sm:max-w-lg md:max-w-2xl">
+          <Outlet />
+        </div>
+      </main>
+
+      {/* Footer always at bottom */}
       {/* <Footer /> */}
     </div>
   );

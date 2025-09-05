@@ -37,7 +37,6 @@ const AuthForm = () => {
 
       dispatch(addUser(res.data));
 
-      
       if (isLogin) {
         navigate("/");
       } else {
@@ -49,71 +48,89 @@ const AuthForm = () => {
   };
 
   return (
-    <div className="flex justify-center my-10">
-      <div className="card card-border bg-base-300 w-96">
-        <div className="card-body">
-          <h2 className="card-title justify-center">
+    <div className="flex justify-center items-start min-h-screen px-4 pt-12 sm:pt-16">
+      <div className="card bg-base-300 w-full max-w-sm sm:max-w-md shadow-lg rounded-xl">
+        <div className="card-body space-y-4">
+          <h2 className="card-title text-center text-xl sm:text-2xl font-semibold">
             {isLogin ? "Login" : "Sign Up"}
           </h2>
 
           {/* First & Last name only for Sign Up */}
           {!isLogin && (
-            <>
-              <fieldset className="fieldset">
-                <legend className="fieldset-legend">First Name</legend>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text text-sm sm:text-base">
+                    First Name
+                  </span>
+                </label>
                 <input
                   type="text"
                   value={firstName}
-                  className="input"
+                  className="input input-bordered w-full text-sm sm:text-base"
                   onChange={(e) => setFirstName(e.target.value)}
                 />
-              </fieldset>
-              <fieldset className="fieldset">
-                <legend className="fieldset-legend">Last Name</legend>
+              </div>
+
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text text-sm sm:text-base">
+                    Last Name
+                  </span>
+                </label>
                 <input
                   type="text"
                   value={lastName}
-                  className="input"
+                  className="input input-bordered w-full text-sm sm:text-base"
                   onChange={(e) => setLastName(e.target.value)}
                 />
-              </fieldset>
-            </>
+              </div>
+            </div>
           )}
 
           {/* Email */}
-          <fieldset className="fieldset">
-            <legend className="fieldset-legend">Email ID</legend>
+          <div className="form-control">
+            <label className="label">
+              <span className="label-text text-sm sm:text-base">Email ID</span>
+            </label>
             <input
-              type="text"
+              type="email"
               value={emailId}
-              className="input"
+              className="input input-bordered w-full text-sm sm:text-base"
               onChange={(e) => setEmailId(e.target.value)}
             />
-          </fieldset>
+          </div>
 
           {/* Password */}
-          <fieldset className="fieldset">
-            <legend className="fieldset-legend">Password</legend>
+          <div className="form-control">
+            <label className="label">
+              <span className="label-text text-sm sm:text-base">Password</span>
+            </label>
             <input
               type="password"
               value={password}
-              className="input"
+              className="input input-bordered w-full text-sm sm:text-base"
               onChange={(e) => setPassword(e.target.value)}
             />
-          </fieldset>
+          </div>
 
           {/* Error */}
-          <p className="text-red-500">{error}</p>
+          {error && (
+            <p className="text-red-500 text-xs sm:text-sm">{error}</p>
+          )}
 
           {/* Submit button */}
-          <div className="card-actions justify-center">
-            <button className="btn btn-primary" onClick={handleSubmit}>
+          <div className="card-actions">
+            <button
+              className="btn btn-primary w-full text-sm sm:text-base"
+              onClick={handleSubmit}
+            >
               {isLogin ? "Login" : "Sign Up"}
             </button>
           </div>
 
           {/* Switch link */}
-          <p className="text-center mt-4">
+          <p className="text-center text-xs sm:text-sm mt-2">
             {isLogin ? (
               <>
                 New user?{" "}

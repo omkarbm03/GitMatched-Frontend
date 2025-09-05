@@ -21,7 +21,7 @@ const EditProfile = ({ user }) => {
       const payload = {
         firstName,
         lastName,
-        skills: skills.split(",").map((s) => s.trim()), // ✅ fix array handling
+        skills: skills.split(",").map((s) => s.trim()),
         about,
         photoUrl,
       };
@@ -40,74 +40,74 @@ const EditProfile = ({ user }) => {
 
   return (
     <>
-      <div className="flex flex-col lg:flex-row justify-center my-10 gap-8">
+      <div className="flex flex-col lg:flex-row justify-center items-stretch my-10 gap-10 px-4">
         {/* Edit form */}
-        <div className="card card-border bg-base-300 w-96">
-          <div className="card-body">
-            <h2 className="card-title justify-center">Edit Profile</h2>
+        <div className="card bg-base-300 w-full max-w-md shadow-xl rounded-xl flex flex-col flex-1">
+          <div className="card-body space-y-4 flex-1">
+            <h2 className="text-2xl font-bold text-center mb-2">Edit Profile</h2>
 
             {/* First Name */}
-            <fieldset className="fieldset">
-              <legend className="fieldset-legend">First Name</legend>
+            <div className="form-control">
+              <label className="label font-medium">First Name</label>
               <input
                 type="text"
                 value={firstName}
-                className="input"
+                className="input input-bordered w-full"
                 onChange={(e) => setFirstName(e.target.value)}
               />
-            </fieldset>
+            </div>
 
             {/* Last Name */}
-            <fieldset className="fieldset">
-              <legend className="fieldset-legend">Last Name</legend>
+            <div className="form-control">
+              <label className="label font-medium">Last Name</label>
               <input
                 type="text"
                 value={lastName}
-                className="input"
+                className="input input-bordered w-full"
                 onChange={(e) => setLastName(e.target.value)}
               />
-            </fieldset>
+            </div>
 
             {/* Skills */}
-            <fieldset className="fieldset">
-              <legend className="fieldset-legend">Skills</legend>
+            <div className="form-control">
+              <label className="label font-medium">Skills</label>
               <input
                 type="text"
                 value={skills}
-                className="input"
-                placeholder="Comma separated e.g. React, Node.js"
+                placeholder="React, Node.js, Python"
+                className="input input-bordered w-full"
                 onChange={(e) => setSkills(e.target.value)}
               />
-            </fieldset>
+            </div>
 
             {/* About */}
-            <fieldset className="fieldset">
-              <legend className="fieldset-legend">About</legend>
+            <div className="form-control">
+              <label className="label font-medium">About</label>
               <textarea
                 value={about}
                 className="textarea textarea-bordered w-full"
                 rows={3}
                 onChange={(e) => setAbout(e.target.value)}
               />
-            </fieldset>
+            </div>
 
             {/* Photo URL */}
-            <fieldset className="fieldset">
-              <legend className="fieldset-legend">Photo URL</legend>
+            <div className="form-control">
+              <label className="label font-medium">Photo URL</label>
               <input
                 type="text"
                 value={photoUrl}
-                className="input"
+                className="input input-bordered w-full"
                 onChange={(e) => setPhotoUrl(e.target.value)}
               />
-            </fieldset>
+            </div>
 
             {/* Error */}
-            <p className="text-red-500 text-sm mt-2">{error}</p>
+            {error && <p className="text-red-500 text-sm">{error}</p>}
 
             {/* Save button */}
-            <div className="card-actions justify-center mt-4">
-              <button className="btn btn-primary" onClick={saveProfile}>
+            <div className="mt-4">
+              <button className="btn btn-primary w-full" onClick={saveProfile}>
                 Save Changes
               </button>
             </div>
@@ -115,22 +115,26 @@ const EditProfile = ({ user }) => {
         </div>
 
         {/* Live Preview */}
-        <UserCard
-          user={{
-            firstName,
-            lastName,
-            skills: skills.split(",").map((s) => s.trim()),
-            about,
-            photoUrl,
-          }}
-        />
+        <div className="w-full max-w-md flex flex-col flex-1">
+          <div className="card bg-base-300 shadow-xl rounded-xl flex-1">
+            <UserCard
+              user={{
+                firstName,
+                lastName,
+                skills: skills.split(",").map((s) => s.trim()),
+                about,
+                photoUrl,
+              }}
+            />
+          </div>
+        </div>
       </div>
 
       {/* Toast */}
       {showToast && (
-        <div className="toast toast-top toast-center">
-          <div className="alert alert-success">
-            <span>Profile saved successfully.</span>
+        <div className="toast toast-top toast-center z-50">
+          <div className="alert alert-success shadow-md">
+            <span>✅ Profile saved successfully.</span>
           </div>
         </div>
       )}
